@@ -32,14 +32,24 @@ namespace gdi_PointAndClick
 
         private void FrmMain_MouseClick(object sender, MouseEventArgs e)
         {
-            Point mausposition = e.Location;
+            Random rnd = new Random();
+            int breite = rnd.Next(20,50);
+            int höhe = rnd.Next(20, 50);
 
-            Rectangle r = new Rectangle(mausposition.X, mausposition.Y, 40, 40);
+            int x = e.Location.X - breite / 2;
+            int y = e.Location.Y - höhe / 2;
 
-            rectangles.Add(r);  // Kurze Variante: rectangles.Add( new Rectangle(...)  );
+            Rectangle r = new Rectangle(x, y, breite, höhe);
+
+
+            rectangles.Add(r);
+
+
+
 
             Refresh();
         }
+
 
         private void FrmMain_KeyDown(object sender, KeyEventArgs e)
         {
