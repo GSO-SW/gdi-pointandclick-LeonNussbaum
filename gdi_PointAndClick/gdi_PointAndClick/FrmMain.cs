@@ -45,7 +45,19 @@ namespace gdi_PointAndClick
 
             Rectangle newRectangle = new Rectangle(x, y, breite, höhe);
 
-            if (!rectangles.Any(existingRectangle => existingRectangle.IntersectsWith(newRectangle)))
+            bool klickonrectangle = false;
+
+            for (int i = 0; i < rectangles.Count; i++)
+            {
+                if (rectangles[i].Contains(e.Location.X, e.Location.Y))
+                {
+                    klickonrectangle = true;
+                    rectangles.Remove(rectangles[i]);
+                    Refresh();
+
+                }
+            }
+            if (!klickonrectangle)
             {
                 rectangles.Add(newRectangle);
                 Refresh();
