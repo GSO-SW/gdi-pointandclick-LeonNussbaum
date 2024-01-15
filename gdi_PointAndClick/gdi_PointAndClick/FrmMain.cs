@@ -19,35 +19,37 @@ namespace gdi_PointAndClick
             int w = this.ClientSize.Width;
             int h = this.ClientSize.Height;
 
-            // Zeichenmittel
-            Brush b = new SolidBrush(Color.Lavender);
-
-
             for (int i = 0; i < rectangles.Count; i++)
             {
+                Brush b = new SolidBrush(GenerateUniqueColor(i));
                 g.FillRectangle(b, rectangles[i]);
             }
+        }
+        private Color GenerateUniqueColor(int index)
+        {
+            int red = (index * 53) % 256;
+            int green = (index * 71) % 256;
+            int blue = (index * 97) % 256;
 
+            return Color.FromArgb(red, green, blue);
         }
 
         private void FrmMain_MouseClick(object sender, MouseEventArgs e)
         {
             Random rnd = new Random();
-            int breite = rnd.Next(20,50);
+            int breite = rnd.Next(20, 50);
             int höhe = rnd.Next(20, 50);
 
             int x = e.Location.X - breite / 2;
             int y = e.Location.Y - höhe / 2;
 
-            Rectangle r = new Rectangle(x, y, breite, höhe);
+            Rectangle newRectangle = new Rectangle(x, y, breite, höhe);
 
-
-            rectangles.Add(r);
-
-
-
-
-            Refresh();
+            if (!rectangles.Any(existingRectangle => existingRectangle.IntersectsWith(newRectangle)))
+            {
+                rectangles.Add(newRectangle);
+                Refresh();
+            }
         }
 
 
